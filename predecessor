@@ -1,0 +1,83 @@
+public Node min(){  // retorna um objeto do tipo Node que vai ser o menor nó da árvore
+  if(isEmpty()) return null // se a árvore estiver vazia
+  return min(this.root); //passa a raíz da árvore como parâmetro para começar a busca
+}
+
+public Node min() {  // versão iterativa
+    if (isEmpty()) return null;
+    Node node = this.root;
+    while (node.left != null) node = node.left;
+    return node;
+}
+
+private Node min(Node node){  //recursivo -> menor valor sempre vai tá mais à esquerda
+  if(node.left == null) return node;  // a função continua chamando a si mesmo até achar um nó que não tem filho à esquerda
+  else return min(node.left); 
+}
+
+public Node max(){  // iterativa // retorna o maior valor da árvore inteira e retorna o nó que tem o maior valor
+  if(isEmpty()) return null;  // árvore vazia
+
+  Node node = this.root;  // começa a busca a partir da raíz
+  while(node.right != null)
+    node = node.right;  // percorre a árvore sempre para a direita já que o maior valor vai tá na extremidade direita
+
+  return node;
+}
+
+public Node max() { // versão recursiva
+    if (isEmpty()) return null;
+    return max(this.root);
+}
+
+private Node max(Node node){  // método auxiliar // não opera na árvore inteira só na subárvore que vai ter como raiz node passado no método
+  if(node.right == null) return node; // a direita ser vazia significa que node já vai ser o menor da subárvore
+  else return max(node.right):
+}
+
+
+public Node predecessor(Node node){  // passa como parâmetro o nó que precisamos encontrar o predecessor
+  if(node == null) return null;
+
+  if(node.left != null)   // o nó tem um filho à esquerda
+      return max(node.left);  // o predecessor vai ser o maior valor dessa subárvora da esquerda
+  else {   // o nó não tem filho à esquerda tem que subir a árvore
+
+      Node aux = node.parent;  // começa olhando para o pai
+
+      while (aux != null && aux.value > node.value)  // enquanto o acenstral for maior que o valor do nó continua subindo
+          aux = aux.parent; // continua subindo
+
+      return aux;
+}
+}
+
+public void add(int element){
+  this.size += 1;  // aumenta o tamanho
+  if(isEmpty())
+    this.root = new Node(element);  // se tiver vazia cria um novo nó com o valor do elemento e define ele como a raíz da árvore
+
+  else{
+    Node aux = this.root;  // começa apontando para a raíz para poder navegar pela árvore
+
+    while (aux != null){  // enquanto não acha o local
+      if(element < aux.value){  // elemento menor que o nó anterior vai para a esquerda
+        if(aux.left == null){  // não tem filho a esquerda já pode inserir
+          Node newNode = new Node(element); // insere
+          aux.left = newNode; // caso não continua descendo
+          newNode.parent = aux;
+          return;
+}
+    aux = aux.left;
+}
+      else {  // se o novo nó for maior ou igual o valor a que se compara
+        if(aux.right == null)  // não tem filho a direita pode inserir
+          Node newNode = new Node(element);
+          aux.right = newNode;  //continua descendo
+          newNode.parent = aux;
+          return;
+}
+        aux = aux.rignt;
+}
+
+  
