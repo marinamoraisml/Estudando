@@ -103,15 +103,15 @@ public class BST {
      * @return O nó contendo o predecessor do valor passado como parâmetro. O método retorna null caso não haja 
      * predecessor.
      */
-    public Node predecessor(Node node) {
+    public Node predecessor(Node node) {  //é o maior menor número 
         if (node == null) return null;
         
-        if (node.left != null)
-            return max(node.left);
+        if (node.left != null)  // tem subárvore a esquerda
+            return max(node.left); //o maior valor da subárvore
         else {
-            Node aux = node.parent;
+            Node aux = node.parent; //o nó não tem subárvore a esquerda en~tao vai subindo pra ver se tem, começando pelo pai do nó atual
             
-            while (aux != null && aux.value > node.value)
+            while (aux != null && aux.value > node.value) // vai subir enquanto o auxiliar for maior que o valor
                 aux = aux.parent;
             
             return aux;
@@ -124,15 +124,15 @@ public class BST {
      * @return O nó contendo o sucessor do valor passado como parâmetro. O método retorna null
      * caso não haja sucessor.
      */
-    public Node sucessor(Node node) {
+    public Node sucessor(Node node) {  // menor valor maior do que ele
         if (node == null) return null;
         
-        if (node.right != null)
-            return min(node.right);
-        else {
-            Node aux = node.parent;
+        if (node.right != null)  // tem subárvore a direita
+            return min(node.right);  // o sucessor é o menor valor da subárvore a direita// o min vai percorrer os nós pela esquerda até encontrar o menor
+        else {                // não tem subárvore a direita
+            Node aux = node.parent; // sobe a árvore para achar um valor maior
             
-            while (aux != null && aux.value < node.value)
+            while (aux != null && aux.value < node.value)  //subir na árvore enquanto os valores forem menor que o valor atual
                 aux = aux.parent;
             
             return aux;
@@ -147,12 +147,12 @@ public class BST {
     public void recursiveAdd(int element) {
         
         if (isEmpty())
-            this.root = new Node(element);
+            this.root = new Node(element); // se for vazia adiciona na raiz
         else {
-            Node aux = this.root;
+            Node aux = this.root; //auxiliar começa na raiz
             recursiveAdd(aux, element);
         }
-        this.size += 1;
+        this.size += 1; // aumenta a quantidade de nós na árvore
         
     }
 
@@ -161,16 +161,16 @@ public class BST {
      * @param node a raíz da árvore.
      * @param element elemento a ser adicionado.
      */
-    private void recursiveAdd(Node node, int element) {
+    private void recursiveAdd(Node node, int element) { //recebe o nó atual e o elemento que quer inserir
         
-        if (element < node.value) {
-            if (node.left == null) {
-                Node newNode = new Node(element);
-                node.left = newNode;
-                newNode.parent = node;
+        if (element < node.value) { // verifica se o elemento a ser inserido é menor que o valor do nó atual
+            if (node.left == null) { //verifica se a esquerda ta vazia
+                Node newNode = new Node(element); // cria o novo nó com o elemento a ser inserido
+                node.left = newNode; //liga ele como filho esquerdo
+                newNode.parent = node; //define o parente
                 return;
             }
-            recursiveAdd(node.left, element);
+            recursiveAdd(node.left, element); // se a esquerda não tava vazia, chama o método de novo com o filho esquerdo como novo ponto de partida
         } else {
             if (node.right == null) {
                 Node newNode = new Node(element);
@@ -187,11 +187,11 @@ public class BST {
      * Remove the node with the value.
      * @param value
      */
-    public void remove(int value) {
-        Node toRemove = search(value);
-        if (toRemove != null) {
+    public void remove(int value) {  
+        Node toRemove = search(value);  //procura o nó pra remover
+        if (toRemove != null) {  //se econtrar chama o outro método remove
             remove(toRemove);
-            this.size -= 1;
+            this.size -= 1; //decrementa o tamanho da árvore
         }
         
     }
@@ -202,26 +202,27 @@ public class BST {
      */
     private void remove(Node toRemove) {
         
-        // First case: node is leaf.
-        if (toRemove.isLeaf()) {
+        // First case: node is leaf. // nó é uma folha
+        if (toRemove.isLeaf()) { // se for folha é so desconectar do pai
             if (toRemove == this.root)
-                this.root = null;
+                this.root = null; // se for vazia a árvore inteira vira vazia
+
             else {
-                if (toRemove.value < toRemove.parent.value)
+                if (toRemove.value < toRemove.parent.value) //verifica se tá a esquerda ou na direita do pai
                     toRemove.parent.left = null;
                 else
                     toRemove.parent.right = null;
             }
         
-        // Second case: node has only left child or only right child
-        } else if (toRemove.hasOnlyLeftChild()) {
+        // Second case: node has only left child or only right child // só tem um filho
+        } else if (toRemove.hasOnlyLeftChild()) { 
             if (toRemove == this.root)  {
-                this.root = toRemove.left;
-                this.root.parent = null;
+                this.root = toRemove.left; //troca a raiz pela subarvore da esquerda
+                this.root.parent = null; // o novo nó não vai ter mais parent
             } else {
-                toRemove.left.parent = toRemove.parent;
-                if (toRemove.value < toRemove.parent.value)
-                    toRemove.parent.left = toRemove.left;
+                toRemove.left.parent = toRemove.parent; // conecta o filho ao avô
+                if (toRemove.value < toRemove.parent.value) 
+                    toRemove.parent.left = toRemove.left; //atualiza o ponteiro de left
                 else
                     toRemove.parent.right = toRemove.left;
             }
@@ -237,11 +238,11 @@ public class BST {
                     toRemove.parent.right = toRemove.right;
             }
             
-        // Third case: node has two children
+        // Third case: node has two children // nó tem dois filhos
         } else {
-            Node sucessor = sucessor(toRemove);
-            toRemove.value = sucessor.value;
-            remove(sucessor);
+            Node sucessor = sucessor(toRemove); //encontrar o sucessor
+            toRemove.value = sucessor.value; //copiar o valor do sucessor para o nó a ser removido
+            remove(sucessor); //remover recursivamente o sucessor
         }
             
     }
@@ -255,7 +256,7 @@ public class BST {
      */
     public Node search(int element) {
         
-        Node aux = this.root;
+        Node aux = this.root; // começa pela raiz
         
         while (aux != null) {   
             if (aux.value == element) return aux;
@@ -275,7 +276,7 @@ public class BST {
      * o elemento não esteja presente na árvore.
      */
     public Node recursiveSearch(int element) {
-        return recursiveSearch(this.root, element);
+        return recursiveSearch(this.root, element); //passa a araiz como incio
     }
     
     /**
@@ -286,10 +287,10 @@ public class BST {
      * @return O nó contendo o elemento procurado. O método retorna null caso
      * o elemento não esteja presente na árvore.
      */
-    private Node recursiveSearch(Node node, int element) {
-        if (node == null) return null;
-        if (element == node.value) return node;
-        if (element < node.value) return recursiveSearch(node.left, element);
+    private Node recursiveSearch(Node node, int element) { //nó atual e o valor procurado
+        if (node == null) return null; //chegamos a uma folha e não encontramos
+        if (element == node.value) return node; // retorna o nó
+        if (element < node.value) return recursiveSearch(node.left, element); //se é menor continua na subárvore da esquerda
         else return recursiveSearch(node.right, element);
     }
     
@@ -297,7 +298,7 @@ public class BST {
      * Retorna a altura da árvore.
      */
     public int height() {
-        return height(this.root);
+        return height(this.root); //começa passando a raiz como argumento
     }
     
     /**
@@ -305,37 +306,37 @@ public class BST {
      * a altura da árvore cuja raiz é passada como parâmetro.
      */
     private int height(Node node) {
-        if(node == null) return -1;
-        else return 1 + Math.max(height(node.left), height(node.right));
+        if(node == null) return -1; // folha ou subárvore vazia
+        else return 1 + Math.max(height(node.left), height(node.right)); //calcula o valor da sub árvore da esquerda depois o da direita pega o maior dos dois e soma 1 pq sobe um nível na árvore
     }
 
     /**
      * Percorre a árvore em pré-ordem.
      */
-    public void preOrder() {
-        preOrder(this.root);
+    public void preOrder() { //nó,esquerda,direita
+        preOrder(this.root); //começa passando a raiz
     }
 
     private void preOrder(Node node) {
-        if (node != null) {
-            System.out.println(node.value);
-            preOrder(node.left);
-            preOrder(node.right);
+        if (node != null) { //verifica se o nó atual existe
+            System.out.println(node.value); // visita o nó atual e imprime o valor dele
+            preOrder(node.left); //chamada recursiva para visitar a subarvore da esquerda
+            preOrder(node.right); //direita
         }
     }
 
     /**
      * Percorre a árvore em-ordem.
      */
-    public void inOrder() {
-        inOrder(this.root);
+    public void inOrder() { //esquerda, nó,direita -> ordem crescente
+        inOrder(this.root); //inicia a recursão a partir da raiz
     }
 
     private void inOrder(Node node) {
-        if (node != null) {
-            inOrder(node.left);
-            System.out.println(node.value);
-            inOrder(node.right);
+        if (node != null) { //verifica se o nó atual existe
+            inOrder(node.left); //visita recursivamente a subárvore da esquerda
+            System.out.println(node.value); //depois imprime o valor do nó atual
+            inOrder(node.right); //depois visita a subárvore da direita
         }
         
     }
@@ -343,15 +344,15 @@ public class BST {
     /**
      * Percorre a árvore em pos-ordem.
      */
-    public void posOrder() {
-        posOrder(this.root);
+    public void posOrder() { //esquerda,direita,nó
+        posOrder(this.root);  
     }
 
     private void posOrder(Node node) {
         if (node != null) {
-            posOrder(node.left);
-            posOrder(node.right);
-            System.out.println(node.value);
+            posOrder(node.left); //percorre recursivamente a subárvore da esquerda
+            posOrder(node.right); //da direita
+            System.out.println(node.value); //por último o nó
         }
         
     }
@@ -360,21 +361,21 @@ public class BST {
      * Percorre a árvore em largura. 
      * @return Uma lista com a os elementos percorridos em largura.
      */
-    public ArrayList<Integer> bfs() {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        Deque<Node> queue = new LinkedList<Node>();
+    public ArrayList<Integer> bfs() { //percorrer a árovore nível por nível
+        ArrayList<Integer> list = new ArrayList<Integer>(); //lista onde vai armazenar os valores visitados
+        Deque<Node> queue = new LinkedList<Node>(); //essa é a fila usada para controlar quais nós ainda precisam ser visitados
         
         if (!isEmpty()) {
-            queue.addLast(this.root);
-            while (!queue.isEmpty()) {
-                Node current = queue.removeFirst();
+            queue.addLast(this.root);  //coloca a raiz como primeiro elemento para ser visitado
+            while (!queue.isEmpty()) {  //enquanto houver nós na fila
+                Node current = queue.removeFirst(); //pega o primeiro nó da fila e o visita
                 
-                list.add(current.value);
+                list.add(current.value); //adiciona na lista
                 
                 if(current.left != null) 
-                    queue.addLast(current.left);
+                    queue.addLast(current.left); //se tem filho a esquerda adiciona a fila e depois visita
                 if(current.right != null) 
-                    queue.addLast(current.right);   
+                    queue.addLast(current.right);    //se tiver filho a direita adiciona
             }
         }
         return list;
@@ -401,7 +402,7 @@ class Node {
         this.value = v;
     }
 
-    public boolean hasOnlyLeftChild() {
+    public boolean hasOnlyLeftChild() { //só tem filho da esquerda
         return (this.left != null && this.right == null);
     }
     
