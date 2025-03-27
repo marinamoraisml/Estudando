@@ -6,10 +6,10 @@ import java.util.LinkedList;
 
 public class BST {
 
-    private Node root;
-    private int size;
+    private Node root; //referência pra raíz
+    private int size; //quantidade de elementos na árvore
     
-    public boolean isEmpty() {
+    public boolean isEmpty() {  //verificar se a árvore tá vazia
         return this.root == null;
     }
     
@@ -18,26 +18,27 @@ public class BST {
      * @param element o valor a ser adicionado na árvore.
      */
     public void add(int element) {
-        this.size += 1;
-        if (isEmpty())
-            this.root = new Node(element);
+        this.size += 1;  //incrementa o size quando adiciona um novo nó
+        if (isEmpty()) 
+            this.root = new Node(element); // se a árvore tá vazia o novo nó vira raiz
         else {
             
-            Node aux = this.root;
+            Node aux = this.root; // inicia aux com a raiz para buscar a posição onde vai adicionar
             
             while (aux != null) {
                 
-                if (element < aux.value) {
-                    if (aux.left == null) { 
-                        Node newNode = new Node(element);
-                        aux.left = newNode;
-                        newNode.parent = aux;
+                if (element < aux.value) {  //verifica se o elemento vai para esquerda
+                    if (aux.left == null) { // verifica se a posição da esquerda ta livre
+                        Node newNode = new Node(element); //cria um novo nó com o valor do elemento para ser inserido
+                        aux.left = newNode; // conecta o novo nó como filho á esquerda do nó atual
+                        newNode.parent = aux;  //define o pai do novo nó como o nó atual
                         return;
                     }
                     
-                    aux = aux.left;
+                    aux = aux.left; //atualiza o auxiliar para continuar buscando na subárvore da esquerda
+
                 } else {
-                    if (aux.right == null) { 
+                    if (aux.right == null) { //verifica se a direita tá livre
                         Node newNode = new Node(element);
                         aux.right = newNode;
                         newNode.parent = aux;
@@ -391,8 +392,8 @@ public class BST {
 
 class Node {
     
-    int value;
-    Node left;
+    int value; // valor do nó
+    Node left; 
     Node right;
     Node parent;
     
