@@ -18,6 +18,31 @@ class Node{
 
 class BST{
 	private Node root;
+
+	public String printNivel(int nivel){
+		if(isEmpty()) return "";
+
+		Deque <Node> fila = new LinkedList<>();
+		fila.addLast(this.root);
+		int nivelatual = 0;
+
+		while(!fila.isEmpty()){
+			qntNivel = fila.size();
+			StringBuilder saida = new StrinBuilder;
+
+			for(int i = 0; i < qntNivel; i++){
+				Node node = fila.removeFirst();
+				if(niveatual == nivel) return saida.append(node.value).append(" ")
+				if(node.left != null) fila.addLast(node.left);
+				if(node.right != null) fila.addLast(node.right);
+}
+		if(nivelatual = nivel) return saida.toString.trim()
+		niveatual++;
+} 
+return "";
+}
+}
+}
 	
 	public String printNivel(int nivel) { 
 		if(this.root == null) return ""; // se a árvore tiver vazia retorna string vazia
