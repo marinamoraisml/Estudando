@@ -9,7 +9,7 @@ Implemente um programa que some os valores de todas as folhas de uma árvore bin
         int soma = 0;
 
         while (!fila.isEmpty()) {
-            Node atual = fila.remove();
+            Node atual = fila.removeFirst();
 
             if (atual.left == null && atual.right == null) {
                 // Se for folha, soma
