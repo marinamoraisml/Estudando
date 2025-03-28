@@ -1,0 +1,78 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class NosInternos {
+
+}
+
+
+class BST{
+	private Node root;
+	private int size;
+	
+	public boolean isEmpty() {
+		return this.root == null;
+	}
+	
+	public void add(int elemento) {
+		this.size += 1;
+		
+		if(isEmpty()) {
+			this.root = new Node(elemento);
+		}
+		else {
+			Node aux = this.root;
+			while(aux != null) {
+				if(elemento < aux.value) {
+					if(aux.left == null) {
+						Node newNode = new Node(elemento);
+						aux.left = newNode;
+						newNode.parent = aux;
+						return;
+					}
+				aux = aux.left;
+				}
+			else {
+				if(aux.right == null) {
+					Node newNode = new Node(elemento);
+					aux.right = newNode;
+					newNode.parent = aux;
+					return;
+				}
+				aux = aux.right;
+			}
+				
+			}
+		}
+	}
+	
+	public int contaNosInternos() {
+		if(root == null) return 0;
+		int contador = 0;
+		Queue<Node> fila = new LinkedList<>();
+		fila.add(root);
+		while(!fila.isEmpty()) {
+			Node atual = fila.remove();
+			if(atual.left != null || atual.right != null) {
+				contador++;
+			}
+			if(atual.left != null) fila.add(atual.left);
+			if(atual.right != null) fila.add(atual.right);
+		}
+		return contador;		
+	}
+}
+class Node{
+	int value;
+	Node right;
+	Node left;
+	Node parent;
+	
+	public Node(int v) {
+		this.value = v;
+	}
+	
+	public boolean isLeaf() {
+		return (this.left == null && this.right == null);
+	}
+}
