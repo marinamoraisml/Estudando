@@ -1,0 +1,25 @@
+Implemente um programa que some os valores de todas as folhas de uma árvore binária de pesquisa.
+
+ public int somaFolhasIterativa() {
+        if (root == null) return 0;
+
+        Queue<Node> fila = new LinkedList<>();
+        fila.add(root);
+
+        int soma = 0;
+
+        while (!fila.isEmpty()) {
+            Node atual = fila.remove();
+
+            if (atual.left == null && atual.right == null) {
+                // Se for folha, soma
+                soma += atual.value;
+            } else {
+                // Adiciona filhos à fila
+                if (atual.left != null) fila.add(atual.left);
+                if (atual.right != null) fila.add(atual.right);
+            }
+        }
+        return soma;
+    }
+}
