@@ -63,6 +63,28 @@ public int nivel(int valor) {
 
         nivel++;
     }
+ return -1; // Valor não está na árvore
+}
 
+public String printNivel(int nivel){
+	if(this.root == null) return "";
+
+	Deque<Node> fila = new LinkedList<>();
+	fila.addLast(this.root);
+	int nivelAtual = 0;
+
+	while(!fila.isEmpty()){
+		int qntNivel = fila.size();
+		StringBuilder saida = new StringBuilder();
+
+		for(int i = 0; i < qntNivel; i++){
+			Node node = fila.removeFirst();
+			if(nivelAtual == nivel) saida.append(node.value),appen("");
+			if(node.left != null) fila.addLast(node.left);
+			if(node.right != null) fila.addLast(node.rigth);
+}
+		if(nivelAtual == nivel) return saida.toString().trim();
+}
+return "";
     return -1; // Valor não está na árvore
 }
