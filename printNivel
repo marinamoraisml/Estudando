@@ -133,3 +133,25 @@ public String printNivel(int nivel){
 return "";
     return -1; // Valor não está na árvore
 }
+
+public int nivel(int x){
+	if(isEmpty()) return -1;
+
+	Deque<Node> fila = new LinkedList<>();
+	fila.addLast(this.root);
+	int nivelAtual = 0;
+
+	while(!fila.is.Empty()){
+		int qntNivel = fila.size();
+
+		for(int i = 0; i < qntNivel; i++){
+			Node aux = fila.removeFirst();
+			if(aux.value == x) return nivelAtual;
+			if(aux.left != null) fila.addLast(aux.left);
+			if(aux.right != null) fila.addLast(aux.right
+}
+		nivelAtual++;
+}
+return -1;
+}
+);
