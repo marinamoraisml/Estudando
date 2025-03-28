@@ -1,0 +1,53 @@
+Há diversas formas de se percorrer uma árvore binária de pesquisa. Breadth-first search (BFS) ou Encaminhamento em Largura é uma forma de visitar um grafo em largura. Para árvores binárias de pesquisa isso significa que os nós serão visitados por níveis (da esquerda para a direita em cada nível).
+
+Escreva um programa que leia os números a serem adicionados em uma BST e imprima o resultado do encaminhamento por largura nessa árvore. Contudo, os nós nos níveis devem ser impressos da direita para a esquerda.
+
+
+class BST {
+    Node root;
+
+    // Método público para adicionar elementos
+    public void add(int value) {
+        root = addRecursive(root, value);
+    }
+
+    // Método recursivo auxiliar para inserção
+    private Node addRecursive(Node node, int value) {
+        if (node == null) return new Node(value);
+
+        if (value < node.value) {
+            node.left = addRecursive(node.left, value);
+        } else {
+            node.right = addRecursive(node.right, value);
+        }
+
+        return node;
+    }
+
+    // Método de percurso em largura da direita para a esquerda
+    public List<Integer> bfsDireitaParaEsquerda() {
+        List<Integer> resultado = new ArrayList<>();
+        if (root == null) return resultado;
+
+        Queue<Node> fila = new LinkedList<>();
+        fila.add(root);
+
+        while (!fila.isEmpty()) {
+            int tamanhoNivel = fila.size();
+            List<Integer> nivelAtual = new ArrayList<>();
+
+            for (int i = 0; i < tamanhoNivel; i++) {
+                Node atual = fila.remove();
+                nivelAtual.add(atual.value);
+
+                // Adiciona primeiro o da direita, depois o da esquerda
+                if (atual.right != null) fila.add(atual.right);
+                if (atual.left != null) fila.add(atual.left);
+            }
+
+            resultado.addAll(nivelAtual);
+        }
+
+        return resultado;
+    }
+}
