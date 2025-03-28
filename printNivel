@@ -1,0 +1,45 @@
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class Nivel {
+ 
+	
+class Node{
+	int value;
+	Node right;
+	Node left;
+	Node parent;
+	
+	public Node(int v) {
+		this.value = v;
+	}
+
+}
+
+class BST{
+	private Node root;
+	
+	public String printNivel(int nivel) { 
+		if(this.root == null) return ""; // se a árvore tiver vazia retorna string vazia
+		
+		Deque<Node> fila = new LinkedList<>(); //cria uma fila
+		fila.addLast(this.root); //adiciona a raiz na fila
+		int nivelAtual = 0;
+		
+		while(!fila.isEmpty()) { //enquanto a fila não tiver vazia
+			int qtdNoNivel = fila.size(); //guarda quantos nós estão neste nível e na fila
+			StringBuilder saida = new StringBuilder(); // usada para armazenar os valores desse nível
+			
+			for (int i = 0; i < qtdNoNivel; i++) { //para cada nó do nível atual, remove da fila e processa
+				Node node = fila.removeFirst();
+				if(nivelAtual == nivel) saida.append(node.value).append(" "); //se o nível atual é o que queremos adiciona o value a saída
+				if(node.left != null) fila.addLast(node.left); // se o nó tem filhos adiciona eles na fila para o proximo nível
+				if(node.right != null) fila.addLast(node.right);
+			}
+			if (nivelAtual == nivel) return saida.toString().trim(); //se foi o nível desejado retorna os valores como string
+			nivelAtual++; //se não, incrementa o nivel autal e continua a busca
+}
+		return "";
+	}
+}
+}
