@@ -43,3 +43,26 @@ class BST{
 	}
 }
 }
+
+// diz o nível que o elemento tá
+
+public int nivel(int valor) {
+    Node atual = this.root;
+    int nivel = 0;
+
+    while (atual != null) {
+        if (atual.value == valor) {
+            return nivel; // Encontrou o valor, retorna o nível
+        }
+
+        if (valor < atual.value) {
+            atual = atual.left;
+        } else {
+            atual = atual.right;
+        }
+
+        nivel++;
+    }
+
+    return -1; // Valor não está na árvore
+}
