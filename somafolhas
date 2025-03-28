@@ -16,10 +16,31 @@ Implemente um programa que some os valores de todas as folhas de uma árvore bin
                 soma += atual.value;
             } else {
                 // Adiciona filhos à fila
-                if (atual.left != null) fila.add(atual.left);
-                if (atual.right != null) fila.add(atual.right);
+                if (atual.left != null) fila.addLast(atual.left);
+                if (atual.right != null) fila.addLast(atual.right);
             }
         }
         return soma;
     }
+}
+
+
+public int somafolhas(){
+ if(isEmpty()) return 0;
+
+Deque <Node> fila = new LinkedList<>();
+fila.addLast(this.root);
+int soma = 0;
+
+while(!fila.isEmpty()){
+ Node node = fila.removeFirst;
+ if(isLeaf()){
+  soma += node.value;
+}
+else {
+ if(node.left != null) fila.addLast(node.left)/
+ if(node.right != null) fila.addLast(node.right);
+}
+}
+return soma;
 }
